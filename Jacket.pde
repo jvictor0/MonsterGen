@@ -102,7 +102,7 @@ class Jacket
         if (DefaultJacket == -1)
         {
             int[] jts = {JacketSpikes, JacketBubbles, JacketHair};
-            m_type = jts[floor(random(0.0, 4.0))];
+            m_type = jts[floor(random(0.0, 3.0))];
         }
         else
         {
@@ -130,9 +130,9 @@ class Jacket
                     float[] p = null;
                     if (m_type == JacketSpikes)
                     {
-                        float xtc =  xt - m_head.m_xPos;
+                        float xtc = xt - m_head.m_xPos;
                         float ytc = yt - m_head.m_yPos;
-                        float[] pts = {xt - dx, yt, xt, yt, xt, yt, xt + random(0.0, xtc), yt + random(ytc)};
+                        float[] pts = {xt - dx, yt, xt, yt, xt, yt, xt + random(xtc), yt + random(ytc)};
                         p = pts;
                     }
                     else if (m_type == JacketBubbles)
