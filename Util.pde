@@ -17,3 +17,16 @@ void SubtractShapes(PGraphics sourceImage, PGraphics maskImage)
     }
     sourceImage.mask(maskArray);
 }
+
+boolean ShapeContains(PGraphics shape, int x, int y)
+{
+    int ix = y * width + x;
+    if (ix >= 0 && ix < shape.pixels.length)
+    {
+        return alpha(shape.pixels[ix]) > 0;
+    }
+    else
+    {
+        return false;
+    }   
+}
