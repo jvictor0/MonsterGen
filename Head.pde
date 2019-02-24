@@ -13,10 +13,10 @@ class Head
         BuildMouthShape();
 
         SetupMainImages();
-        
-        GenJacket();
 
         PickEyes();
+        
+        GenJacket();
     }
  
     void Eye(Eye e)
@@ -58,12 +58,12 @@ class Head
         m_mainShape.Draw(mainMask);
         mainMask.endDraw();
         
-        PGraphics mouthMask = createGraphics(height, width);
-        mouthMask.beginDraw();
-        m_mouthShape.Draw(mouthMask);
-        mouthMask.endDraw();
+        m_mouthShapeImage = createGraphics(height, width);
+        m_mouthShapeImage.beginDraw();
+        m_mouthShape.Draw(m_mouthShapeImage);
+        m_mouthShapeImage.endDraw();
 
-        SubtractShapes(m_mainImage, mouthMask);        
+        SubtractShapes(m_mainImage, m_mouthShapeImage);        
 
         m_mouthImage = createGraphics(height, width);
         m_mouthImage.beginDraw();
@@ -76,7 +76,7 @@ class Head
         IntersectShapes(m_mouthImage, mainMask);
 
         m_mainShapeImage = mainMask;
-        SubtractShapes(m_mainShapeImage, mouthMask);
+        SubtractShapes(m_mainShapeImage, m_mouthShapeImage);
 
         m_interiorImage = createGraphics(height, width);
         m_interiorImage.beginDraw();
@@ -91,7 +91,7 @@ class Head
         m_mainShape.Draw(outline);
         outline.endDraw();
 
-        SubtractShapes(m_interiorImage, mouthMask);
+        SubtractShapes(m_interiorImage, m_mouthShapeImage);
         SubtractShapes(m_interiorImage, outline);
     }
 
@@ -109,6 +109,11 @@ class Head
     boolean InteriorContains(int x, int y)
     {
         return ShapeContains(m_interiorImage, x, y);
+    }
+    
+    boolean MouthContains(int x, int y)
+    {
+        return ShapeContains(m_mouthShapeImage, x, y);
     }
 
     void PickEyes()
@@ -151,8 +156,8 @@ class Head
     void Draw()
     {
         DrawMainShapes();
-        m_jacket.Draw();
         DrawEyes();
+        m_jacket.Draw();
     }
 
     int Red() { return (int)red(m_color); }
@@ -174,6 +179,7 @@ class Head
     PGraphics m_mainImage;
     PGraphics m_mouthImage;
     PGraphics m_mainShapeImage;
+    PGraphics m_mouthShapeImage;
     PGraphics m_interiorImage;
 }
 
@@ -191,6 +197,6 @@ void EyeballGrid()
 
 Head RandomMonsterHead()
 {
-    int s = 200 + (int) random(0.0, 50);
+    int s = 400 + (int) random(0.0, 50);
     return new Head(width / 2, height / 2, s, s, color(random(0,255), random(0,255), random(0,255)), 0);
 }
